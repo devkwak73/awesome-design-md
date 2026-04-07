@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Naver Design System Preview — Dark</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:"Malgun Gothic","맑은 고딕",-apple-system,"system-ui",helvetica,"Apple SD Gothic Neo",sans-serif;background:#1a1a1a;color:#e0e0e0;-webkit-font-smoothing:antialiased;font-size:14px}
+    .wrap{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+    h2{font-size:20px;font-weight:700;color:#fff;margin:48px 0 20px;padding-bottom:10px;border-bottom:2px solid #03c75a}
+    h2:first-child{margin-top:0}
+    .swatches{display:flex;flex-wrap:wrap;gap:12px}
+    .sw{width:120px}
+    .sw-box{height:70px;border-radius:8px}
+    .sw-name{font-size:11px;font-weight:700;margin-top:6px;color:#fff}
+    .sw-hex{font-size:10px;color:#888;font-family:monospace}
+    .type-row{display:flex;align-items:baseline;gap:20px;padding:12px 0;border-bottom:1px solid #2e2e2e}
+    .type-role{font-size:11px;color:#666;width:140px;flex:0 0 140px}
+    .type-meta{font-size:11px;color:#666;font-family:monospace;text-align:right;min-width:180px}
+    .search-bar{display:flex;align-items:center;background:#2a2a2a;border-radius:33px;box-shadow:rgba(255,255,255,0.1) 0 0 0 1px;height:58px;max-width:560px;overflow:hidden}
+    .search-input{flex:1;font-size:21px;font-family:inherit;border:none;outline:none;padding:0 20px;background:transparent;color:#fff}
+    .search-btn{width:80px;height:100%;background:#03c75a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .search-btn:hover{background:#03aa5a}
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{font-family:inherit;font-size:14px;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:700;border:none;transition:all .15s}
+    .btn-primary{background:#03c75a;color:#fff}
+    .btn-primary:hover{background:#03aa5a}
+    .btn-secondary{background:#2e2e2e;color:#e0e0e0;border:1px solid #3e3e3e;font-weight:500}
+    .btn-secondary:hover{background:#3e3e3e}
+    .btn-text{background:transparent;color:#5c9eff;font-weight:500;padding:10px 0}
+    .btn-sm{font-size:12px;padding:6px 14px;border-radius:6px}
+    .badge-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .badge{font-size:11px;font-weight:500;padding:3px 8px;border-radius:4px}
+    .badge-default{background:#2e2e2e;color:#e0e0e0}
+    .badge-green{background:#03c75a;color:#fff}
+    .badge-blue{background:#1a2e5a;color:#5c9eff}
+    .badge-red{background:#4a1a10;color:#f4361e}
+    .badge-live{background:#e31c1c;color:#fff;animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+    .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .card{background:#242424;border-radius:8px;box-shadow:rgba(255,255,255,0.08) 0 0 0 1px;padding:16px;transition:box-shadow .15s;cursor:pointer}
+    .card:hover{box-shadow:rgba(255,255,255,0.14) 0 0 0 1px,rgba(0,0,0,0.3) 0 4px 8px}
+    .card-thumb{width:100%;height:100px;background:#333;border-radius:6px;margin-bottom:10px}
+    .card-headline{font-size:14.7px;font-weight:700;line-height:1.4;color:#e0e0e0;margin-bottom:6px}
+    .card:hover .card-headline{color:#03c75a}
+    .card-meta{font-size:12.6px;color:#666}
+    .news-card{background:#242424;border-radius:8px;box-shadow:rgba(255,255,255,0.08) 0 0 0 1px;overflow:hidden}
+    .news-row{display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid #2e2e2e;cursor:pointer;transition:background .1s}
+    .news-row:last-child{border-bottom:none}
+    .news-row:hover{background:#2e2e2e}
+    .news-thumb{width:64px;height:48px;background:#333;border-radius:4px;flex:0 0 64px}
+    .news-title{font-size:14px;font-weight:500;line-height:1.45;color:#e0e0e0}
+    .news-row:hover .news-title{color:#03c75a}
+    .news-source{font-size:12px;color:#666;margin-top:4px}
+    .nav-demo{background:#242424;border-bottom:1px solid #2e2e2e;padding:0 24px;display:flex;align-items:center;gap:24px;height:48px}
+    .nav-logo{font-size:20px;font-weight:900;color:#03c75a;letter-spacing:-1px}
+    .nav-link{font-size:13px;font-weight:500;color:#aaa;text-decoration:none;cursor:pointer;transition:color .1s}
+    .nav-link:hover,.nav-link.active{color:#03c75a}
+    .nav-link.active{border-bottom:2px solid #03c75a;padding-bottom:2px}
+    .elev-row{display:flex;gap:16px}
+    .elev-box{flex:1;height:80px;background:#242424;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#666;text-align:center;line-height:1.6}
+    .elev-0{box-shadow:none;border:1px solid #2e2e2e}
+    .elev-1{box-shadow:rgba(255,255,255,0.08) 0 0 0 1px}
+    .elev-2{box-shadow:rgba(255,255,255,0.1) 0 0 0 1px,rgba(0,0,0,0.3) 0 4px 8px}
+    .elev-3{box-shadow:rgba(255,255,255,0.14) 0 0 0 1px,rgba(0,0,0,0.5) 0 8px 16px}
+    .sp-item{display:flex;flex-direction:column;align-items:center;gap:4px;margin-right:16px}
+    .sp-box{background:#03c75a;opacity:.4;border-radius:2px;width:20px}
+    .sp-label{font-size:10px;color:#666;font-family:monospace}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav-demo" style="margin:-40px -24px 40px;padding-left:24px">
+    <span class="nav-logo">NAVER</span>
+    <a class="nav-link active">홈</a>
+    <a class="nav-link">뉴스</a>
+    <a class="nav-link">쇼핑</a>
+    <a class="nav-link">웹툰</a>
+  </nav>
+
+  <h2>Color Palette — Dark Adaptation</h2>
+  <div class="swatches">
+    <div class="sw"><div class="sw-box" style="background:#03c75a"></div><div class="sw-name">Naver Green</div><div class="sw-hex">#03C75A</div></div>
+    <div class="sw"><div class="sw-box" style="background:#1a1a1a"></div><div class="sw-name">Page BG</div><div class="sw-hex">#1A1A1A</div></div>
+    <div class="sw"><div class="sw-box" style="background:#242424"></div><div class="sw-name">Card Surface</div><div class="sw-hex">#242424</div></div>
+    <div class="sw"><div class="sw-box" style="background:#2e2e2e"></div><div class="sw-name">Hover / Divider</div><div class="sw-hex">#2E2E2E</div></div>
+    <div class="sw"><div class="sw-box" style="background:#e0e0e0"></div><div class="sw-name">Primary Text</div><div class="sw-hex">#E0E0E0</div></div>
+    <div class="sw"><div class="sw-box" style="background:#888"></div><div class="sw-name">Secondary Text</div><div class="sw-hex">#888888</div></div>
+    <div class="sw"><div class="sw-box" style="background:#5c9eff"></div><div class="sw-name">Link Blue</div><div class="sw-hex">#5C9EFF</div></div>
+    <div class="sw"><div class="sw-box" style="background:#f4361e"></div><div class="sw-name">Alert Red</div><div class="sw-hex">#F4361E</div></div>
+  </div>
+
+  <h2>Typography Scale</h2>
+  <div>
+    <div class="type-row"><span class="type-role">Search Input</span><span style="font-size:21px;font-weight:400;flex:1">경매 완전 정복</span><span class="type-meta">21px / 400</span></div>
+    <div class="type-row"><span class="type-role">Card Headline</span><span style="font-size:14.7px;font-weight:700;flex:1">부동산 경매 완전 정복 시리즈</span><span class="type-meta">14.7px / 700</span></div>
+    <div class="type-row"><span class="type-role">Body</span><span style="font-size:14px;font-weight:400;flex:1;color:#e0e0e0">경매는 알면 쉽습니다</span><span class="type-meta">14px / 400</span></div>
+    <div class="type-row"><span class="type-role">Caption</span><span style="font-size:12.6px;font-weight:400;flex:1;color:#888">부놈 · 방금 전</span><span class="type-meta">12.6px / 400</span></div>
+  </div>
+
+  <h2>Search Bar</h2>
+  <div class="search-bar">
+    <input class="search-input" placeholder="검색어를 입력해 주세요" readonly/>
+    <button class="search-btn">
+      <svg width="24" height="24" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <h2>Buttons</h2>
+  <div class="btn-row">
+    <button class="btn btn-primary">로그인</button>
+    <button class="btn btn-secondary">더보기</button>
+    <button class="btn btn-text">더보기 ›</button>
+  </div>
+
+  <h2>Badges & Tags</h2>
+  <div class="badge-row">
+    <span class="badge badge-default">일반</span>
+    <span class="badge badge-green">NEW</span>
+    <span class="badge badge-blue">공지</span>
+    <span class="badge badge-red">HOT</span>
+    <span class="badge badge-live">LIVE</span>
+  </div>
+
+  <h2>Content Cards</h2>
+  <div class="card-grid">
+    <div class="card"><div class="card-thumb" style="background:#1a3a2a"></div><div class="card-headline">부동산 경매 입문</div><div class="card-meta">부놈 · 방금 전</div></div>
+    <div class="card"><div class="card-thumb" style="background:#1a2a3a"></div><div class="card-headline">낙찰가 산정 공식</div><div class="card-meta">경매연구소 · 1시간 전</div></div>
+    <div class="card"><div class="card-thumb" style="background:#3a2a1a"></div><div class="card-headline">빌라 경매 주의사항</div><div class="card-meta">투자레터 · 3시간 전</div></div>
+  </div>
+
+  <h2>News List</h2>
+  <div class="news-card">
+    <div class="news-row"><div class="news-thumb"></div><div><div class="news-title">서울 경매 낙찰가율 상승세</div><div class="news-source">한국경제 · 10분 전</div></div></div>
+    <div class="news-row"><div class="news-thumb"></div><div><div class="news-title">권리분석 완전 정복 가이드</div><div class="news-source">부동산뉴스 · 1시간 전</div></div></div>
+    <div class="news-row"><div class="news-thumb"></div><div><div class="news-title">공매 vs 경매 비교 분석</div><div class="news-source">머니투데이 · 3시간 전</div></div></div>
+  </div>
+
+  <h2>Elevation</h2>
+  <div class="elev-row">
+    <div class="elev-box elev-0">Level 0<br><span style="font-size:10px;font-family:monospace">border</span></div>
+    <div class="elev-box elev-1">Level 1<br><span style="font-size:10px;font-family:monospace">card</span></div>
+    <div class="elev-box elev-2">Level 2<br><span style="font-size:10px;font-family:monospace">hover</span></div>
+    <div class="elev-box elev-3">Level 3<br><span style="font-size:10px;font-family:monospace">overlay</span></div>
+  </div>
+
+</div>
+</body>
+</html>

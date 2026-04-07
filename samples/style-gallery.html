@@ -311,6 +311,7 @@ body{font-family:system-ui,sans-serif;background:#0f0f0f;color:#fff;display:flex
     <button class="cat-tab" data-cat="fintech">Fintech</button>
     <button class="cat-tab" data-cat="enterprise">Enterprise</button>
     <button class="cat-tab" data-cat="cars">Car Brands</button>
+    <button class="cat-tab" data-cat="korean">🇰🇷 Korean</button>
   </div>
   <span class="app-count" id="countDisplay">58개</span>
 </div>
@@ -1083,6 +1084,20 @@ const T = [
    hfont:'system-ui,-apple-system,sans-serif',font:'system-ui,sans-serif',
    hw:500,hl:1.1,ht:'-0.01em',br:'4px',btnR:'4px',cardR:'6px',
    dark:false,palette:['#fff','#f4f4f4','#171a20','#cc0000','rgba(23,26,32,.1)']},
+
+  // ── KOREAN ───────────────────────────────────────────────────
+  {id:'naver',      name:'Naver',       cat:'korean', variant:'dashboard', anim:'anim-fade',
+   desc:'Korea\'s #1 portal — Naver Green, ring shadows, dense info architecture',
+   bg:'#ffffff',bg2:'#f9fafb',surface:'#ffffff',surface2:'#f0f0f0',
+   text:'#2e2e2e',sub:'#737373',dim:'rgba(46,46,46,.3)',
+   accent:'#03c75a',accent2:'#03aa5a',at:'#ffffff',
+   nav:'rgba(255,255,255,.94)',navT:'#2e2e2e',
+   border:'rgba(0,0,0,.1)',border2:'rgba(0,0,0,.16)',
+   shadow:'rgba(0,0,0,0.1) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 1px 2px 0px',
+   hfont:'"Malgun Gothic","맑은 고딕",-apple-system,"Apple SD Gothic Neo",sans-serif',
+   font:'"Malgun Gothic","맑은 고딕",-apple-system,"Apple SD Gothic Neo",sans-serif',
+   hw:700,hl:1.4,ht:'0em',br:'8px',btnR:'8px',cardR:'8px',
+   dark:false,palette:['#ffffff','#f9fafb','#2e2e2e','#03c75a','#0c43b7']},
 ];
 
 /* ══════════════════════════════════════════════
@@ -1396,8 +1411,8 @@ let currentThemeVariant = 'refined';
 /* ══════════════════════════════════════════════
    SIDEBAR BUILD
 ══════════════════════════════════════════════ */
-const catOrder = ['ai','dev','infra','design','fintech','enterprise','cars'];
-const catLabels2 = {ai:'AI & ML',dev:'Dev Tools',infra:'Infrastructure',design:'Design',fintech:'Fintech',enterprise:'Enterprise',cars:'Cars'};
+const catOrder = ['ai','dev','infra','design','fintech','enterprise','cars','korean'];
+const catLabels2 = {ai:'AI & ML',dev:'Dev Tools',infra:'Infrastructure',design:'Design',fintech:'Fintech',enterprise:'Enterprise',cars:'Cars',korean:'🇰🇷 Korean'};
 
 function buildSidebar(ids) {
   const list = document.getElementById('themeList');

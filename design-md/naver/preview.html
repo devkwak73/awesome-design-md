@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Naver Design System Preview</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:"Malgun Gothic","맑은 고딕",-apple-system,"system-ui",helvetica,"Apple SD Gothic Neo",sans-serif;background:#f9fafb;color:#2e2e2e;-webkit-font-smoothing:antialiased;font-size:14px}
+    .wrap{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+    h2{font-size:20px;font-weight:700;color:#1c1c1c;margin:48px 0 20px;padding-bottom:10px;border-bottom:2px solid #03c75a}
+    h2:first-child{margin-top:0}
+
+    /* ── Colors ── */
+    .swatches{display:flex;flex-wrap:wrap;gap:12px}
+    .sw{width:120px}
+    .sw-box{height:70px;border-radius:8px;box-shadow:rgba(0,0,0,0.1) 0 0 0 1px,rgba(0,0,0,0.04) 0 1px 2px}
+    .sw-name{font-size:11px;font-weight:700;margin-top:6px;color:#1c1c1c}
+    .sw-hex{font-size:10px;color:#737373;font-family:monospace}
+
+    /* ── Typography ── */
+    .type-row{display:flex;align-items:baseline;gap:20px;padding:12px 0;border-bottom:1px solid #e4e4e4}
+    .type-role{font-size:11px;color:#8c8c8c;width:140px;flex:0 0 140px}
+    .type-sample{flex:1;color:#2e2e2e}
+    .type-meta{font-size:11px;color:#8c8c8c;font-family:monospace;text-align:right;min-width:180px}
+
+    /* ── Components ── */
+    /* Search */
+    .search-bar{display:flex;align-items:center;background:#fff;border-radius:33px;box-shadow:rgba(0,0,0,0.1) 0 0 0 1px,rgba(0,0,0,0.04) 0 2px 4px;height:58px;max-width:560px;overflow:hidden}
+    .search-input{flex:1;font-size:21px;font-family:inherit;border:none;outline:none;padding:0 20px;background:transparent;color:#000}
+    .search-btn{width:80px;height:100%;background:#03c75a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+    .search-btn:hover{background:#03aa5a}
+    .search-btn svg{fill:#fff}
+
+    /* Buttons */
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{font-family:inherit;font-size:14px;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:700;border:none;transition:all .15s}
+    .btn-primary{background:#03c75a;color:#fff}
+    .btn-primary:hover{background:#03aa5a}
+    .btn-secondary{background:#f9fafb;color:#2e2e2e;border:1px solid #e4e4e4;font-weight:500}
+    .btn-secondary:hover{background:#f0f0f0}
+    .btn-text{background:transparent;color:#0c43b7;font-weight:500;padding:10px 0}
+    .btn-sm{font-size:12px;padding:6px 14px;border-radius:6px}
+
+    /* Cards */
+    .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .card{background:#fff;border-radius:8px;box-shadow:rgba(0,0,0,0.1) 0 0 0 1px,rgba(0,0,0,0.04) 0 1px 2px;padding:16px;transition:box-shadow .15s;cursor:pointer}
+    .card:hover{box-shadow:rgba(0,0,0,0.15) 0 0 0 1px,rgba(0,0,0,0.08) 0 4px 8px}
+    .card-thumb{width:100%;height:100px;background:#f0f0f0;border-radius:6px;margin-bottom:10px;object-fit:cover}
+    .card-headline{font-size:14.7px;font-weight:700;line-height:1.4;color:#2e2e2e;margin-bottom:6px}
+    .card:hover .card-headline{color:#03c75a}
+    .card-meta{font-size:12.6px;color:#8c8c8c}
+
+    /* News list card */
+    .news-card{background:#fff;border-radius:8px;box-shadow:rgba(0,0,0,0.1) 0 0 0 1px,rgba(0,0,0,0.04) 0 1px 2px;overflow:hidden}
+    .news-row{display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background .1s}
+    .news-row:last-child{border-bottom:none}
+    .news-row:hover{background:#f9fafb}
+    .news-thumb{width:64px;height:48px;background:#e4e4e4;border-radius:4px;flex:0 0 64px}
+    .news-title{font-size:14px;font-weight:500;line-height:1.45;color:#2e2e2e}
+    .news-row:hover .news-title{color:#03c75a}
+    .news-source{font-size:12px;color:#8c8c8c;margin-top:4px}
+
+    /* Badges */
+    .badge-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .badge{font-size:11px;font-weight:500;padding:3px 8px;border-radius:4px}
+    .badge-default{background:#f0f0f0;color:#2e2e2e}
+    .badge-green{background:#03c75a;color:#fff}
+    .badge-blue{background:#e8f0fe;color:#0c43b7}
+    .badge-red{background:#ffeee8;color:#f4361e}
+    .badge-live{background:#e31c1c;color:#fff;animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+
+    /* Nav */
+    .nav-demo{background:#fff;border-bottom:1px solid #e4e4e4;padding:0 24px;display:flex;align-items:center;gap:24px;height:48px}
+    .nav-logo{font-size:20px;font-weight:900;color:#03c75a;letter-spacing:-1px}
+    .nav-link{font-size:13px;font-weight:500;color:#2e2e2e;text-decoration:none;padding:0 2px;cursor:pointer;transition:color .1s}
+    .nav-link:hover,.nav-link.active{color:#03c75a}
+    .nav-link.active{border-bottom:2px solid #03c75a;padding-bottom:2px}
+
+    /* Services */
+    .services{display:flex;gap:16px;flex-wrap:wrap}
+    .service-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:8px;border-radius:8px;transition:background .1s}
+    .service-item:hover{background:#f9fafb}
+    .service-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .service-label{font-size:11.5px;font-weight:500;color:#2e2e2e}
+
+    /* Elevation */
+    .elev-row{display:flex;gap:16px}
+    .elev-box{flex:1;height:80px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#737373}
+    .elev-0{box-shadow:none;border:1px solid #e4e4e4}
+    .elev-1{box-shadow:rgba(0,0,0,0.1) 0 0 0 1px,rgba(0,0,0,0.04) 0 1px 2px}
+    .elev-2{box-shadow:rgba(0,0,0,0.1) 0 0 0 1px,rgba(0,0,0,0.08) 0 4px 8px}
+    .elev-3{box-shadow:rgba(0,0,0,0.15) 0 0 0 1px,rgba(0,0,0,0.12) 0 8px 16px}
+
+    /* Spacing */
+    .spacing-row{display:flex;gap:0;align-items:flex-end}
+    .sp-item{display:flex;flex-direction:column;align-items:center;gap:4px;margin-right:16px}
+    .sp-box{background:#03c75a;opacity:.3;border-radius:2px;width:20px}
+    .sp-label{font-size:10px;color:#737373;font-family:monospace}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav class="nav-demo" style="margin:-40px -24px 40px;padding-left:24px">
+    <span class="nav-logo">NAVER</span>
+    <a class="nav-link active">홈</a>
+    <a class="nav-link">뉴스</a>
+    <a class="nav-link">쇼핑</a>
+    <a class="nav-link">웹툰</a>
+    <a class="nav-link">지식iN</a>
+  </nav>
+
+  <!-- COLORS -->
+  <h2>Color Palette</h2>
+  <div class="swatches">
+    <div class="sw"><div class="sw-box" style="background:#03c75a"></div><div class="sw-name">Naver Green</div><div class="sw-hex">#03C75A</div></div>
+    <div class="sw"><div class="sw-box" style="background:#03aa5a"></div><div class="sw-name">Green Hover</div><div class="sw-hex">#03AA5A</div></div>
+    <div class="sw"><div class="sw-box" style="background:#03a94d"></div><div class="sw-name">Green Active</div><div class="sw-hex">#03A94D</div></div>
+    <div class="sw"><div class="sw-box" style="background:#1c1c1c"></div><div class="sw-name">Strong Text</div><div class="sw-hex">#1C1C1C</div></div>
+    <div class="sw"><div class="sw-box" style="background:#2e2e2e"></div><div class="sw-name">Primary Text</div><div class="sw-hex">#2E2E2E</div></div>
+    <div class="sw"><div class="sw-box" style="background:#737373"></div><div class="sw-name">Secondary Text</div><div class="sw-hex">#737373</div></div>
+    <div class="sw"><div class="sw-box" style="background:#8c8c8c"></div><div class="sw-name">Tertiary Text</div><div class="sw-hex">#8C8C8C</div></div>
+    <div class="sw"><div class="sw-box" style="background:#0c43b7"></div><div class="sw-name">Link Blue</div><div class="sw-hex">#0C43B7</div></div>
+    <div class="sw"><div class="sw-box" style="background:#f4361e"></div><div class="sw-name">Alert Red</div><div class="sw-hex">#F4361E</div></div>
+    <div class="sw"><div class="sw-box" style="background:#ffffff;border:1px solid #e4e4e4"></div><div class="sw-name">White Canvas</div><div class="sw-hex">#FFFFFF</div></div>
+    <div class="sw"><div class="sw-box" style="background:#f9fafb"></div><div class="sw-name">Secondary BG</div><div class="sw-hex">#F9FAFB</div></div>
+    <div class="sw"><div class="sw-box" style="background:#e4e4e4"></div><div class="sw-name">Divider</div><div class="sw-hex">#E4E4E4</div></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <h2>Typography Scale</h2>
+  <div>
+    <div class="type-row"><span class="type-role">Search Input</span><span class="type-sample" style="font-size:21px;font-weight:400">경매 완전 정복</span><span class="type-meta">21px / 400 / 1.4</span></div>
+    <div class="type-row"><span class="type-role">Section Heading</span><span class="type-sample" style="font-size:15px;font-weight:700">오늘의 주요 뉴스</span><span class="type-meta">15px / 700 / 1.4</span></div>
+    <div class="type-row"><span class="type-role">Card Headline</span><span class="type-sample" style="font-size:14.7px;font-weight:700">부동산 경매로 내 집 마련하는 법</span><span class="type-meta">14.7px / 700 / 1.4</span></div>
+    <div class="type-row"><span class="type-role">Body / Link</span><span class="type-sample" style="font-size:14px;font-weight:400">경매는 어렵고 무서운 것이 아닙니다</span><span class="type-meta">14px / 400 / 1.5</span></div>
+    <div class="type-row"><span class="type-role">Sub-heading</span><span class="type-sample" style="font-size:13.65px;font-weight:500">입문편 · 중급편 · 고급편</span><span class="type-meta">13.65px / 500 / 1.45</span></div>
+    <div class="type-row"><span class="type-role">Caption</span><span class="type-sample" style="font-size:12.6px;font-weight:400;color:#8c8c8c">부놈 · 3시간 전</span><span class="type-meta">12.6px / 400 / 1.4</span></div>
+    <div class="type-row"><span class="type-role">Navigation</span><span class="type-sample" style="font-size:13px;font-weight:500;color:#03c75a">홈 · 뉴스 · 쇼핑</span><span class="type-meta">13px / 500 / 1.4</span></div>
+    <div class="type-row"><span class="type-role">Micro</span><span class="type-sample" style="font-size:11.55px;font-weight:400;color:#8c8c8c">총 1,284건의 검색 결과</span><span class="type-meta">11.55px / 400 / 1.4</span></div>
+  </div>
+
+  <!-- SEARCH -->
+  <h2>Search Bar</h2>
+  <div class="search-bar">
+    <input class="search-input" placeholder="검색어를 입력해 주세요" readonly/>
+    <button class="search-btn">
+      <svg width="24" height="24" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <!-- BUTTONS -->
+  <h2>Buttons</h2>
+  <div class="btn-row">
+    <button class="btn btn-primary">로그인</button>
+    <button class="btn btn-primary btn-sm">검색</button>
+    <button class="btn btn-secondary">더보기</button>
+    <button class="btn btn-secondary btn-sm">설정</button>
+    <button class="btn btn-text">더보기 ›</button>
+  </div>
+
+  <!-- BADGES -->
+  <h2>Badges & Tags</h2>
+  <div class="badge-row">
+    <span class="badge badge-default">일반</span>
+    <span class="badge badge-green">NEW</span>
+    <span class="badge badge-blue">공지</span>
+    <span class="badge badge-red">HOT</span>
+    <span class="badge badge-live">LIVE</span>
+    <span class="badge badge-default">부동산</span>
+    <span class="badge badge-default">경매</span>
+    <span class="badge badge-green">추천</span>
+  </div>
+
+  <!-- CARDS -->
+  <h2>Content Cards</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
+      <div class="card-headline">부동산 경매 입문, 이것만 알면 된다</div>
+      <div class="card-meta">부놈 · 방금 전</div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb)"></div>
+      <div class="card-headline">낙찰가 산정, 전문가들이 쓰는 공식</div>
+      <div class="card-meta">경매연구소 · 1시간 전</div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2)"></div>
+      <div class="card-headline">빌라 경매의 함정, 미리 알고 피하자</div>
+      <div class="card-meta">투자레터 · 3시간 전</div>
+    </div>
+  </div>
+
+  <!-- NEWS LIST -->
+  <h2>News List Card</h2>
+  <div class="news-card">
+    <div class="news-row">
+      <div class="news-thumb"></div>
+      <div><div class="news-title">서울 아파트 경매 낙찰가율, 3개월 연속 상승</div><div class="news-source">한국경제 · 10분 전</div></div>
+    </div>
+    <div class="news-row">
+      <div class="news-thumb"></div>
+      <div><div class="news-title">경매 초보를 위한 권리분석 완전 정리</div><div class="news-source">부동산뉴스 · 1시간 전</div></div>
+    </div>
+    <div class="news-row">
+      <div class="news-thumb"></div>
+      <div><div class="news-title">공매 vs 경매, 어떤 게 더 유리할까</div><div class="news-source">머니투데이 · 3시간 전</div></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <h2>Service Shortcuts</h2>
+  <div class="services">
+    <div class="service-item"><div class="service-icon" style="background:#e8f5e9">📧</div><div class="service-label">메일</div></div>
+    <div class="service-item"><div class="service-icon" style="background:#e3f2fd">☕</div><div class="service-label">카페</div></div>
+    <div class="service-item"><div class="service-icon" style="background:#fff3e0">📝</div><div class="service-label">블로그</div></div>
+    <div class="service-item"><div class="service-icon" style="background:#fce4ec">🛒</div><div class="service-label">쇼핑</div></div>
+    <div class="service-item"><div class="service-icon" style="background:#f3e5f5">🗺️</div><div class="service-label">지도</div></div>
+    <div class="service-item"><div class="service-icon" style="background:#e0f2f1">🎬</div><div class="service-label">웹툰</div></div>
+    <div class="service-item"><div class="service-icon" style="background:#e8eaf6">❓</div><div class="service-label">지식iN</div></div>
+    <div class="service-item"><div class="service-icon" style="background:#efebe9">📷</div><div class="service-label">사전</div></div>
+  </div>
+
+  <!-- ELEVATION -->
+  <h2>Elevation (Ring Shadow System)</h2>
+  <div class="elev-row">
+    <div class="elev-box elev-0">Level 0<br><span style="font-size:10px;font-family:monospace">border only</span></div>
+    <div class="elev-box elev-1">Level 1<br><span style="font-size:10px;font-family:monospace">card default</span></div>
+    <div class="elev-box elev-2">Level 2<br><span style="font-size:10px;font-family:monospace">card hover</span></div>
+    <div class="elev-box elev-3">Level 3<br><span style="font-size:10px;font-family:monospace">overlay</span></div>
+  </div>
+
+  <!-- SPACING -->
+  <h2>Spacing Scale</h2>
+  <div class="spacing-row">
+    <div class="sp-item"><div class="sp-box" style="height:4px"></div><div class="sp-label">4px</div></div>
+    <div class="sp-item"><div class="sp-box" style="height:8px"></div><div class="sp-label">8px</div></div>
+    <div class="sp-item"><div class="sp-box" style="height:12px"></div><div class="sp-label">12px</div></div>
+    <div class="sp-item"><div class="sp-box" style="height:16px"></div><div class="sp-label">16px</div></div>
+    <div class="sp-item"><div class="sp-box" style="height:24px"></div><div class="sp-label">24px</div></div>
+    <div class="sp-item"><div class="sp-box" style="height:32px"></div><div class="sp-label">32px</div></div>
+  </div>
+
+  <!-- BORDER RADIUS -->
+  <h2>Border Radius</h2>
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <div style="width:64px;height:64px;background:#03c75a;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">4px</div>
+    <div style="width:64px;height:64px;background:#03c75a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">8px</div>
+    <div style="width:64px;height:64px;background:#03c75a;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">12px</div>
+    <div style="width:64px;height:64px;background:#03c75a;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">16px</div>
+    <div style="width:120px;height:44px;background:#03c75a;border-radius:33px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">33px (search)</div>
+  </div>
+
+</div>
+</body>
+</html>
