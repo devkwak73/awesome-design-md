@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>부동산 경매 완전 정복 — 부놈</title>
+  <style>
+    :root {
+      --bg:         #f5f5f7;  /* Apple light gray */
+      --white:      #ffffff;
+      --black:      #000000;
+      --text:       #1d1d1f;  /* Apple near-black */
+      --text-sub:   #6e6e73;  /* Apple secondary text */
+      --text-dim:   #86868b;
+      --blue:       #0071e3;  /* Apple blue — interactive only */
+      --blue-dark:  #0077ed;
+      --blue-text:  #0066cc;
+      --separator:  rgba(0,0,0,.08);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+                   'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top:0; left:0; right:0; height:48px;
+      background: rgba(245,245,247,.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: .5px solid var(--separator);
+      display: flex; align-items:center; justify-content:space-between;
+      padding: 0 22px;
+      z-index: 9999;
+    }
+    .nav-brand {
+      font-size:13px; font-weight:600;
+      color: var(--text); text-decoration:none; letter-spacing:-.01em;
+    }
+    .nav-links { display:flex; gap:26px; list-style:none; }
+    .nav-links a {
+      font-size:13px; color: rgba(0,0,0,.72);
+      text-decoration:none; transition:color .15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      font-size:13px; color: var(--blue-text);
+      text-decoration:none;
+    }
+    .nav-cta:hover { text-decoration:underline; }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity:0; transform:translateY(22px);
+      transition: opacity .7s cubic-bezier(.22,1,.36,1),
+                  transform .7s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.on { opacity:1; transform:none; }
+    .d1 { transition-delay:.1s; }
+    .d2 { transition-delay:.22s; }
+    .d3 { transition-delay:.34s; }
+    .d4 { transition-delay:.46s; }
+
+    /* ══════════════════════════════════════════
+       HERO — light bg, cinematic Apple style
+    ══════════════════════════════════════════ */
+    #hero {
+      background: var(--white);
+      padding: 130px 24px 80px;
+      text-align:center;
+    }
+    .hero-label {
+      font-size:13px; font-weight:500;
+      letter-spacing:.1em; text-transform:uppercase;
+      color: var(--blue-text); margin-bottom:18px;
+    }
+    .hero-h1 {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                   'Helvetica Neue', Arial, sans-serif;
+      font-size: clamp(40px, 7vw, 76px);
+      font-weight:600; line-height:1.06;
+      letter-spacing:-.025em;
+      color: var(--text);
+    }
+    .hero-h1 .accent { color: var(--blue); }
+    .hero-sub {
+      font-size: clamp(17px, 2.4vw, 21px);
+      font-weight:300; line-height:1.6;
+      color: var(--text-sub);
+      max-width:540px; margin:20px auto 0;
+    }
+    .hero-actions {
+      display:flex; gap:12px; flex-wrap:wrap;
+      justify-content:center; margin-top:36px;
+    }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      font-size:17px; font-weight:400; line-height:1;
+      padding:13px 24px; border-radius:980px;
+      text-decoration:none; border:none; cursor:pointer;
+      transition: background .16s, transform .1s;
+    }
+    .btn-fill {
+      background: var(--blue); color:#fff;
+    }
+    .btn-fill:hover { background: var(--blue-dark); }
+    .btn-fill:active { transform:scale(.97); }
+    .btn-ghost {
+      background: transparent; color: var(--blue-text);
+      border: 1px solid var(--blue-text);
+    }
+    .btn-ghost:hover { background: rgba(0,102,204,.06); }
+
+    /* ── Book shelf ── */
+    .shelf {
+      display:flex; gap: clamp(16px,4vw,48px);
+      align-items:flex-end; justify-content:center;
+      margin-top:64px;
+    }
+    .shelf-item { display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .book {
+      position:relative;
+      width: clamp(90px,13vw,128px);
+      aspect-ratio:3/4;
+      border-radius:3px 8px 8px 3px;
+      transform: perspective(700px) rotateY(-22deg) rotateX(3deg);
+      transition: transform .5s cubic-bezier(.22,1,.36,1),
+                  box-shadow .5s;
+      cursor:pointer;
+      box-shadow: 4px 8px 28px rgba(0,0,0,.14);
+    }
+    .book:hover {
+      transform: perspective(700px) rotateY(-6deg) rotateX(1deg) translateY(-10px);
+      box-shadow: 8px 20px 48px rgba(0,0,0,.18);
+    }
+    .book-inner {
+      width:100%; height:100%; border-radius:inherit;
+      padding: 16px 14px;
+      display:flex; flex-direction:column; justify-content:space-between;
+    }
+    .book-vol   { font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
+    .book-num   { font-size:clamp(28px,6vw,42px); font-weight:700; letter-spacing:-.04em; line-height:1; margin-top:4px; }
+    .book-name  { font-size:clamp(9px,1.6vw,12px); font-weight:600; line-height:1.35; }
+    .book-grade { font-size:clamp(8px,1.2vw,10px); font-weight:400; opacity:.6; letter-spacing:.04em; margin-top:3px; }
+    /* book spine */
+    .book::before {
+      content:''; position:absolute;
+      top:0; left:0; bottom:0; width:6px;
+      border-radius:3px 0 0 3px;
+      background: rgba(0,0,0,.18);
+    }
+    /* vol 1 — crisp white */
+    .b1 .book-inner { background:#fff; color:#1d1d1f; }
+    .b1 .book-vol, .b1 .book-num { color:#0071e3; }
+    /* vol 2 — light blue-gray */
+    .b2 .book-inner { background:#f0f4ff; color:#1d1d1f; }
+    .b2 .book-vol, .b2 .book-num { color:#0040c8; }
+    /* vol 3 — pale warm */
+    .b3 .book-inner { background:#fff8f0; color:#1d1d1f; }
+    .b3 .book-vol, .b3 .book-num { color:#b05a00; }
+
+    .shelf-label {
+      font-size:12px; color: var(--text-dim); letter-spacing:.01em;
+    }
+
+    /* ══════════════════════════════════════════
+       TAGLINE BAND — dark cinematic
+    ══════════════════════════════════════════ */
+    #band {
+      background: var(--black);
+      padding: 100px 24px;
+      text-align:center;
+    }
+    .band-h {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                   'Helvetica Neue', Arial, sans-serif;
+      font-size: clamp(28px,5vw,52px);
+      font-weight:600; line-height:1.1;
+      letter-spacing:-.02em; color:#fff;
+      max-width:700px; margin:0 auto;
+    }
+    .band-h span { color: rgba(255,255,255,.4); }
+    .band-sub {
+      font-size:17px; font-weight:300; line-height:1.6;
+      color: rgba(255,255,255,.55);
+      margin-top:18px;
+    }
+
+    /* ══════════════════════════════════════════
+       3-BOOK GRID — light gray bg
+    ══════════════════════════════════════════ */
+    #volumes {
+      background: var(--bg);
+      padding: 100px 24px;
+    }
+    .vol-header { text-align:center; margin-bottom:64px; }
+    .section-label {
+      font-size:12px; font-weight:700;
+      letter-spacing:.12em; text-transform:uppercase;
+      color: var(--blue-text); margin-bottom:12px;
+    }
+    .section-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                   'Helvetica Neue', Arial, sans-serif;
+      font-size: clamp(26px,4vw,44px);
+      font-weight:600; letter-spacing:-.02em;
+      line-height:1.1; color:var(--text);
+    }
+
+    .vol-grid {
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px; max-width:960px; margin:0 auto;
+    }
+    .vol-card {
+      background:var(--white);
+      border-radius:18px;
+      padding:36px 30px 34px;
+      display:flex; flex-direction:column; gap:16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      transition: box-shadow .3s, transform .3s;
+    }
+    .vol-card:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,.1);
+      transform:translateY(-4px);
+    }
+    .vol-badge {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:44px; height:44px; border-radius:12px;
+      font-size:13px; font-weight:700; letter-spacing:.04em;
+      flex-shrink:0;
+    }
+    .v1 .vol-badge { background:#e8f0fe; color:#0040c8; }
+    .v2 .vol-badge { background:#e8f4fe; color:#0071e3; }
+    .v3 .vol-badge { background:#fff3e0; color:#b05a00; }
+    .vol-tag {
+      font-size:11px; font-weight:700;
+      letter-spacing:.12em; text-transform:uppercase;
+      color: var(--text-dim); margin-bottom:2px;
+    }
+    .vol-name {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                   'Helvetica Neue', Arial, sans-serif;
+      font-size:22px; font-weight:600;
+      letter-spacing:-.015em; line-height:1.2;
+      color: var(--text);
+    }
+    .vol-desc {
+      font-size:15px; line-height:1.65;
+      color: var(--text-sub); flex:1;
+    }
+    .vol-list {
+      list-style:none; display:flex; flex-direction:column; gap:8px;
+    }
+    .vol-list li {
+      font-size:14px; color: var(--text-sub);
+      padding-left:16px; position:relative; line-height:1.5;
+    }
+    .vol-list li::before {
+      content:''; position:absolute; left:0; top:8px;
+      width:5px; height:5px; border-radius:50%;
+      background: var(--blue);
+    }
+    .vol-link {
+      font-size:15px; color: var(--blue-text);
+      text-decoration:none; display:inline-flex; align-items:center; gap:3px;
+      margin-top:4px; transition: gap .2s;
+    }
+    .vol-link:hover { gap:7px; text-decoration:underline; }
+    .vol-link::after { content:'›'; }
+
+    /* ══════════════════════════════════════════
+       AUTHOR — white bg
+    ══════════════════════════════════════════ */
+    #author {
+      background: var(--white);
+      border-top: .5px solid var(--separator);
+      padding: 100px 24px;
+    }
+    .author-wrap {
+      max-width:720px; margin:0 auto;
+      display:flex; gap:52px; align-items:center; flex-wrap:wrap;
+    }
+    .author-icon {
+      flex:0 0 auto; width:110px; height:110px; border-radius:50%;
+      background:var(--bg); display:flex; align-items:center;
+      justify-content:center; font-size:44px;
+      box-shadow:0 4px 20px rgba(0,0,0,.08);
+    }
+    .author-text .section-label { margin-bottom:8px; }
+    .author-name {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                   'Helvetica Neue', Arial, sans-serif;
+      font-size:30px; font-weight:600;
+      letter-spacing:-.015em; color:var(--text);
+    }
+    .author-bio {
+      font-size:16px; line-height:1.7;
+      color:var(--text-sub); margin-top:12px; max-width:460px;
+    }
+
+    /* ══════════════════════════════════════════
+       CTA — dark
+    ══════════════════════════════════════════ */
+    #cta {
+      background:var(--black);
+      padding:120px 24px;
+      text-align:center;
+    }
+    .cta-h {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                   'Helvetica Neue', Arial, sans-serif;
+      font-size: clamp(32px,5.5vw,60px);
+      font-weight:600; line-height:1.07;
+      letter-spacing:-.025em; color:#fff;
+    }
+    .cta-sub {
+      font-size:18px; font-weight:300; line-height:1.6;
+      color:rgba(255,255,255,.55);
+      margin:16px auto 0; max-width:460px;
+    }
+    .cta-btns {
+      display:flex; gap:12px; flex-wrap:wrap;
+      justify-content:center; margin-top:40px;
+    }
+    .btn-white {
+      background:#fff; color:var(--text);
+      font-size:17px; padding:13px 26px;
+    }
+    .btn-white:hover { background:#f0f0f0; }
+    .btn-white-ghost {
+      background:transparent; color:rgba(255,255,255,.82);
+      border:1px solid rgba(255,255,255,.3);
+      font-size:17px; padding:12px 26px;
+    }
+    .btn-white-ghost:hover { background:rgba(255,255,255,.07); }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      background:#161617;
+      border-top:.5px solid rgba(255,255,255,.1);
+      padding:30px 24px;
+      text-align:center;
+    }
+    footer p {
+      font-size:12px; color:rgba(255,255,255,.28);
+      line-height:1.8;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width:700px) {
+      .nav-links { display:none; }
+      .vol-grid  { grid-template-columns:1fr; max-width:420px; }
+      .author-wrap { flex-direction:column; gap:24px; }
+      .shelf { gap:10px; }
+    }
+    @media (max-width:900px) {
+      .vol-grid { grid-template-columns:1fr; max-width:480px; margin:0 auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">부놈</a>
+  <ul class="nav-links">
+    <li><a href="#volumes">시리즈</a></li>
+    <li><a href="#author">저자</a></li>
+  </ul>
+  <a class="nav-cta" href="#cta">시작하기 →</a>
+</nav>
+
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-label reveal">부동산 경매 완전 정복 — 3권 시리즈</p>
+
+  <h1 class="hero-h1 reveal d1">
+    어렵고 무서운 경매를<br>
+    <span class="accent">세상에서 제일 쉽게.</span>
+  </h1>
+
+  <p class="hero-sub reveal d2">
+    완전 초보부터 실전 고수까지.<br>경매의 모든 것을 단계별로 담았습니다.
+  </p>
+
+  <div class="hero-actions reveal d3">
+    <a href="#cta"    class="btn btn-fill">전자책 보기</a>
+    <a href="#volumes" class="btn btn-ghost">시리즈 살펴보기</a>
+  </div>
+
+  <div class="shelf reveal d4">
+    <div class="shelf-item">
+      <div class="book b1">
+        <div class="book-inner">
+          <div>
+            <div class="book-vol">Vol. I</div>
+            <div class="book-num">01</div>
+          </div>
+          <div>
+            <div class="book-name">부동산 경매<br>완전 정복</div>
+            <div class="book-grade">입문편</div>
+          </div>
+        </div>
+      </div>
+      <span class="shelf-label">입문편</span>
+    </div>
+    <div class="shelf-item">
+      <div class="book b2">
+        <div class="book-inner">
+          <div>
+            <div class="book-vol">Vol. II</div>
+            <div class="book-num">02</div>
+          </div>
+          <div>
+            <div class="book-name">부동산 경매<br>완전 정복</div>
+            <div class="book-grade">중급편</div>
+          </div>
+        </div>
+      </div>
+      <span class="shelf-label">중급편</span>
+    </div>
+    <div class="shelf-item">
+      <div class="book b3">
+        <div class="book-inner">
+          <div>
+            <div class="book-vol">Vol. III</div>
+            <div class="book-num">03</div>
+          </div>
+          <div>
+            <div class="book-name">부동산 경매<br>완전 정복</div>
+            <div class="book-grade">고급편</div>
+          </div>
+        </div>
+      </div>
+      <span class="shelf-label">고급편</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- BAND -->
+<section id="band">
+  <h2 class="band-h reveal">
+    경매는 <span>어렵고 무서운 것</span>이 아닙니다.<br>
+    모르기 때문에 무서운 것입니다.
+  </h2>
+  <p class="band-sub reveal d1">부놈이 가장 쉬운 언어로 안내합니다.</p>
+</section>
+
+
+<!-- VOLUMES -->
+<section id="volumes">
+  <div class="vol-header">
+    <p class="section-label reveal">3권 시리즈</p>
+    <h2 class="section-title reveal d1">단계별로 완성하는<br>부동산 경매 완전 정복</h2>
+  </div>
+
+  <div class="vol-grid">
+    <!-- Vol 1 -->
+    <div class="vol-card v1 reveal">
+      <div>
+        <div class="vol-tag">입문편</div>
+        <div class="vol-badge">I</div>
+      </div>
+      <h3 class="vol-name">경매, 처음이어도<br>괜찮습니다</h3>
+      <p class="vol-desc">
+        등기부등본이 뭔지 몰라도 괜찮아요. 경매의 'ㄱ'자도 모르는 분들을 위해 쓰인 입문서입니다.
+      </p>
+      <ul class="vol-list">
+        <li>경매 절차 A to Z</li>
+        <li>권리분석 기초 완전 정리</li>
+        <li>나의 첫 낙찰, 최저가 산정법</li>
+      </ul>
+      <a href="#cta" class="vol-link">1권 시작하기</a>
+    </div>
+
+    <!-- Vol 2 -->
+    <div class="vol-card v2 reveal d1">
+      <div>
+        <div class="vol-tag">중급편</div>
+        <div class="vol-badge">II</div>
+      </div>
+      <h3 class="vol-name">한 번 낙찰받았다면,<br>이제 수익을 키울 때</h3>
+      <p class="vol-desc">
+        아파트 너머로 시야를 넓혀보세요. 빌라·다세대·상가까지 물건 유형별 전략을 담았습니다.
+      </p>
+      <ul class="vol-list">
+        <li>다세대 vs 다가구 권리 구조</li>
+        <li>임차인 보증금 인수 판단법</li>
+        <li>명도 협상 실전 가이드</li>
+      </ul>
+      <a href="#cta" class="vol-link">2권 살펴보기</a>
+    </div>
+
+    <!-- Vol 3 -->
+    <div class="vol-card v3 reveal d2">
+      <div>
+        <div class="vol-tag">고급편</div>
+        <div class="vol-badge">III</div>
+      </div>
+      <h3 class="vol-name">경매로 자산을<br>설계하는 단계</h3>
+      <p class="vol-desc">
+        낙찰을 넘어 포트폴리오를 구성하는 전략. 레버리지·세금·연속 투자 시스템을 다룹니다.
+      </p>
+      <ul class="vol-list">
+        <li>법인 vs 개인 — 세금 & 레버리지</li>
+        <li>NPL·공매 활용 전략</li>
+        <li>자금 사이클 설계 & 출구 전략</li>
+      </ul>
+      <a href="#cta" class="vol-link">3권 살펴보기</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- AUTHOR -->
+<section id="author">
+  <div class="author-wrap">
+    <div class="author-icon reveal">🏠</div>
+    <div class="author-text reveal d1">
+      <p class="section-label">저자 소개</p>
+      <h2 class="author-name">부놈</h2>
+      <p class="author-bio">
+        어렵고 복잡한 부동산 경매를 누구나 이해할 수 있도록 풀어내는 것이 목표입니다.
+        전문 용어 하나하나를 쉬운 말로 바꾸고, 실전에서 바로 쓸 수 있는 예시로 채운
+        3권 시리즈를 완성했습니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA -->
+<section id="cta">
+  <h2 class="cta-h reveal">오늘, 첫 페이지를<br>열어보세요.</h2>
+  <p class="cta-sub reveal d1">
+    입문부터 고급까지.<br>부놈이 함께합니다.
+  </p>
+  <div class="cta-btns reveal d2">
+    <a href="#" class="btn btn-white btn-fill">1권 — 입문편 읽기</a>
+    <a href="#" class="btn btn-white-ghost">전체 시리즈 보기</a>
+  </div>
+</section>
+
+
+<footer>
+  <p>부동산 경매 완전 정복 시리즈 · 저자 부놈<br>Copyright © 2026 부놈. All rights reserved.</p>
+</footer>
+
+
+<script>
+  const io = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }),
+    { threshold:.1, rootMargin:'0px 0px -30px 0px' }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
